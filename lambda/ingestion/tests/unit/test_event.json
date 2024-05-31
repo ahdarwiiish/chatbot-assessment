@@ -1,0 +1,15 @@
+{
+    "Records": [
+      {
+        "s3": {
+          "bucket": {
+            "name": "your-s3-bucket-name"
+          },
+          "object": {
+            "key": "your-file-name.pdf"
+          }
+        }
+      }
+    ]
+  }
+  

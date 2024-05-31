@@ -1,0 +1,22 @@
+# Ignore Python bytecode files
+*.pyc
+__pycache__/
+
+# Ignore virtual environment directories
+venv/
+.env/
+
+# Ignore package directories and files
+package/
+data_ingestion_lambda.zip
+query_handling_lambda.zip
+
+# Ignore environment variable files
+.env
+
+# Ignore log files and other system files
+*.log
+.DS_Store
+
+# Ignore VS Code workspace settings
+.vscode/

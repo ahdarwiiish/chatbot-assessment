@@ -1,0 +1,62 @@
+name: Deploy Lambda Functions
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Install dependencies
+      run: |
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install boto3 fitz PyMuPDF python-docx sentence-transformers chromadb openai
+        deactivate
+
+    - name: Package Lambda Functions
+      run: |
+        mkdir -p package
+        cp -R . package/
+        cd package
+        zip -r ../data_ingestion_lambda.zip *
+        cd ..
+        cp -R . package/
+        cd package
+        zip -r ../query_handling_lambda.zip *
+        cd ..
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+
+    - name: Deploy Data Ingestion Lambda
+      run: |
+        aws lambda update-function-code \
+          --function-name DataIngestionLambda \
+          --zip-file fileb://data_ingestion_lambda.zip
+
+    - name: Deploy Query Handling Lambda
+      run: |
+        aws lambda update-function-code \
+          --function-name QueryHandlingLambda \
+          --zip-file fileb://query_handling_lambda.zip
+
+    - name: Deploy API Gateway (if needed)
+      run: |
+        # Update your API Gateway configuration if necessary
+        # Example: aws apigateway update-rest-api ...

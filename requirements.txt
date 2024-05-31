@@ -1,0 +1,7 @@
+boto3 
+fitz
+PyMuPDF
+python-docx
+sentence-transformers
+chromadb
+openai

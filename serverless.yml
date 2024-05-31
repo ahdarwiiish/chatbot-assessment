@@ -1,0 +1,59 @@
+service: rag-chatbot-application
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: us-east-1
+  environment:
+    OPENAI_API_KEY: ${env:OPENAI_API_KEY}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+        - s3:ListBucket
+      Resource:
+        - arn:aws:s3:::your-s3-bucket-name
+        - arn:aws:s3:::your-s3-bucket-name/*
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+        - logs:CreateLogGroup
+        - logs:CreateLogStream
+        - logs:PutLogEvents
+      Resource: "*"
+
+functions:
+  dataIngestion:
+    handler: data_ingestion_lambda.lambda_handler
+    events:
+      - s3:
+          bucket: your-s3-bucket-name
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .pdf
+            - suffix: .docx
+
+  queryHandling:
+    handler: query_handling_lambda.lambda_handler
+    events:
+      - http:
+          path: query
+          method: post
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+    - .venv/**
+    - tests/**
+    - .pytest_cache/**
+    - .serverless/**
+    - .git/**
+    - .github/**
