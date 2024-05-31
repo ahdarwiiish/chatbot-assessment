@@ -11,6 +11,8 @@ This project demonstrates how to build a Retrieval-Augmented Generation (RAG) ch
 
 ## Architecture
 
+![chatbot_architecture drawio(2)](https://github.com/ahdarwiiish/chatbot-assessment/assets/137199275/677b0d87-7559-4249-857f-369509f9a206)
+
 The architecture involves the following AWS services:
 - **Amazon S3**: Stores PDF and DOC files.
 - **AWS Lambda**: Executes the backend logic.
