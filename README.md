@@ -10,6 +10,7 @@ This project demonstrates how to build a Retrieval-Augmented Generation (RAG) ch
 
 ![alt text](image.png)
 
+
 The architecture involves the following AWS services:
 - **Amazon S3**: Stores PDF and DOC files.
 - **AWS Lambda**: Executes the backend logic.
@@ -108,4 +109,3 @@ The architecture involves the following AWS services:
 - Ensure your ChromaDB instance is accessible from your Lambda functions.
 - Adjust the chunk size and other parameters as needed based on your specific use case.
 
- 
