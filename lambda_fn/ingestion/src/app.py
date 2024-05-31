@@ -1,5 +1,6 @@
 import boto3
 import fitz  # PyMuPDF
+import io 
 from docx import Document
 from sentence_transformers import SentenceTransformer
 from chromadb import Client

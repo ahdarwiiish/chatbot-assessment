@@ -1,13 +1,13 @@
 import json
 import boto3
 from botocore.stub import Stubber
-from lambda_function import lambda_handler  # Import the lambda_handler from your Lambda function code
+from lambda_fn.ingestion.src import lambda_handler   
 
 def create_s3_stub():
     s3_client = boto3.client('s3')
     stubber = Stubber(s3_client)
 
-    # Define the file content (e.g., a sample PDF content in bytes)
+    # Define the file content  
     sample_pdf_content = b'%PDF-1.4 ... end of sample PDF ...'
 
     response = {
@@ -17,7 +17,7 @@ def create_s3_stub():
         }
     }
 
-    expected_params = {'Bucket': 'your-s3-bucket-name', 'Key': 'your-file-name.pdf'}
+    expected_params = {'Bucket': 'source-bucket', 'Key': 'FILE1.pdf'}
     stubber.add_response('get_object', response, expected_params)
     stubber.activate()
 

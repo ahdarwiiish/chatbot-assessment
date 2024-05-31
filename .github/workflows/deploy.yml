@@ -30,11 +30,11 @@ jobs:
         mkdir -p package
         cp -R . package/
         cd package
-        zip -r ../data_ingestion_lambda.zip *
+        zip -r ../ingestion.zip *
         cd ..
         cp -R . package/
         cd package
-        zip -r ../query_handling_lambda.zip *
+        zip -r ../chatbot.zip *
         cd ..
 
     - name: Configure AWS credentials
@@ -47,14 +47,14 @@ jobs:
     - name: Deploy Data Ingestion Lambda
       run: |
         aws lambda update-function-code \
-          --function-name DataIngestionLambda \
-          --zip-file fileb://data_ingestion_lambda.zip
+          --function-name ingestion \
+          --zip-file fileb://ingestion.zip
 
     - name: Deploy Query Handling Lambda
       run: |
         aws lambda update-function-code \
-          --function-name QueryHandlingLambda \
-          --zip-file fileb://query_handling_lambda.zip
+          --function-name chatbot \
+          --zip-file fileb://chatbot.zip
 
     - name: Deploy API Gateway (if needed)
       run: |

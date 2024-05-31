@@ -3,10 +3,10 @@
       {
         "s3": {
           "bucket": {
-            "name": "your-s3-bucket-name"
+            "name": "source-bucket"
           },
           "object": {
-            "key": "your-file-name.pdf"
+            "key": "file1.pdf"
           }
         }
       }

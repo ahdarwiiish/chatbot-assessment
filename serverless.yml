@@ -12,8 +12,8 @@ provider:
         - s3:GetObject
         - s3:ListBucket
       Resource:
-        - arn:aws:s3:::your-s3-bucket-name
-        - arn:aws:s3:::your-s3-bucket-name/*
+        - arn:aws:s3:::source-bucket
+        - arn:aws:s3:::source-bucket/*
     - Effect: Allow
       Action:
         - lambda:InvokeFunction
@@ -24,17 +24,17 @@ provider:
 
 functions:
   dataIngestion:
-    handler: data_ingestion_lambda.lambda_handler
+    handler: lambda.ingestion.src.app.lambda_handler
     events:
       - s3:
-          bucket: your-s3-bucket-name
+          bucket: source-bucket
           event: s3:ObjectCreated:*
           rules:
             - suffix: .pdf
             - suffix: .docx
 
   queryHandling:
-    handler: query_handling_lambda.lambda_handler
+    handler: lambda.chatbot.src.app.lambda_handler
     events:
       - http:
           path: query
